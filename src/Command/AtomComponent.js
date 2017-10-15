@@ -7,10 +7,9 @@ class AtomComponent extends Component
 
     /**
      *
-     * @param body
      * @return {Promise}
      */
-    render(body) {
+    render() {
         return AtomReader(this.feed(), 10);
     }
 }

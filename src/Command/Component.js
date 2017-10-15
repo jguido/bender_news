@@ -32,13 +32,12 @@ class Component
 {
     /**
      *
-     * @param body
      * @return {Promise}
      */
-    render(body){}
+    render(){}
 
-    generateResponse(body) {
-        return this.render(body).then(a =>  {
+    generateResponse() {
+        return this.render().then(a =>  {
 
             const data = postProcess(a);
 

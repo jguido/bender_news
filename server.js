@@ -16,8 +16,17 @@ server.on('listening', () => {
 
     const registerToMotherlord = () => {
         const uri = `${config.swarm.motherlord}/register/service/news/${server.address().port}`;
+
+        const options = {
+            method: 'PUT',
+            uri: uri,
+            body: {
+                linked: ['types']
+            },
+            json: true // Automatically stringifies the body to JSON
+        };
         console.log(`attempt to register to motherlord : ${uri}`);
-        request.put(uri, (err, res) => {
+        request(options, (err, res) => {
             if(err) {
                 console.log(err);
                 console.log("Error connecting to motherlord");
@@ -26,7 +35,21 @@ server.on('listening', () => {
 
     };
     registerToMotherlord();
-    setInterval(registerToMotherlord, 15*1000);
+    setInterval(registerToMotherlord, 10*1000);
+});
+
+const commandFactory = require('./src/Command/commandFactory');
+app.post('/service', (req, res, next) => {
+    const type = req.body.news.types;
+
+    console.log(`Asked for news : ${type}`);
+    commandFactory(type)
+        .then(result => res.json(result))
+        .catch(e => {
+            console.error(e);
+            res.text(e).sendStatus(500);
+        });
+
 });
 
 

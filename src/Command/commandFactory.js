@@ -14,7 +14,7 @@ const commandFactory = (type) => new Promise((resolve, reject) => {
 
   const command = resolveInfoParameters(type);
 
-  resolve(command.generateResponse(body));
+  resolve(command.generateResponse());
 });
 
 const resolveInfoParameters = (cmd) => {
